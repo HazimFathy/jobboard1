@@ -1,6 +1,5 @@
 from django.shortcuts import render , redirect
 from .models import Job
-from django.core.paginator import Paginator
 from .form import applyform , addjob
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
