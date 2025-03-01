@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'django_filters',
     'contact',
     'home',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
