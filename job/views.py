@@ -1,7 +1,4 @@
 from django.shortcuts import render , redirect
-
-from job.api import job_detail_api
-from job.serializers import jobserializer
 from .models import Job
 from django.core.paginator import Paginator
 from .form import applyform , addjob
