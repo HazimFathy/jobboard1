@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+<div class="error-page text-center" style="padding: 100px 0;">
+    <div class="container">
+        <h1 class="display-1 text-danger">500</h1>
+        <h2 class="text-dark">Oops! Something Went Wrong</h2>
+        <p class="text-muted">Sorry, something went wrong on our end. Please try again later.</p>
+        <a href="{% url 'home:home' %}" class="btn btn-primary mt-3">Back to Home</a>
+    </div>
+</div>
+{% endblock body %}

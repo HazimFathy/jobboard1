@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<!-- Bradcam Area -->
+<div class="bradcam_area bradcam_bg_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>Blog</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ Bradcam Area -->
+
+<!--================Blog Area =================-->
+<section class="blog_area section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Blog Left Sidebar -->
+            <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="blog_left_sidebar">
+                    {% for blog in blog_list %}
+                    <article class="blog_item">
+                        <div class="blog_item_img">
+                            <img class="card-img rounded-0 blog-image" src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                            <a href="#" class="blog_item_date">
+                                <h3>{{ blog.create_at|date:'d' }}</h3>
+                                <p>{{ blog.create_at|date:'M' }}</p>
+                            </a>
+                        </div>
+                        <div class="blog_details">
+                            <a class="d-inline-block" href="{% url 'blogs:blogdetail' blog.id %}">
+                                <h2>{{ blog.title }}</h2>
+                            </a>
+                            <p>{{ blog.description }}</p>
+                            <ul class="blog-info-link">
+                                <li><a href="#"><i class="fa fa-user"></i> {{ blog.category }}</a></li>
+                            </ul>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Blog Right Sidebar -->
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    <!-- Category Widget -->
+                    <aside class="single_sidebar_widget post_category_widget">
+                        <h4 class="widget_title">Category</h4>
+                        <ul class="list cat-list">
+                            {% for i in blog_list %}
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>{{ i.category }}</p>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </aside>
+
+                    <!-- Recent Post Widget -->
+                    <aside class="single_sidebar_widget popular_post_widget">
+                        <h3 class="widget_title">Recent Post</h3>
+                        {% for i in blog_list %}
+                        <div class="media post_item">
+                            <img class="recent-post-image" src="{{ i.image.url }}" alt="{{ i.title }}">
+                            <div class="media-body">
+                                <a href="{% url 'blogs:blogdetail' i.id %}">
+                                    <h3>{{ i.title }}</h3>
+                                </a>
+                                <p>{{ i.create_at|date:'d M Y' }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================Blog Area =================-->
+
+<!-- Add Custom CSS for Image Sizing -->
+<style>
+    /* Style for blog images */
+    .blog-image {
+        width: 100%; /* Make the image responsive */
+        height: 300px; /* Set a fixed height */
+        object-fit: cover; /* Ensure the image covers the area without distortion */
+        border-radius: 8px; /* Optional: Add rounded corners */
+    }
+
+    /* Style for recent post images */
+    .recent-post-image {
+        width: 80px; /* Set a fixed width */
+        height: 80px; /* Set a fixed height */
+        object-fit: cover; /* Ensure the image covers the area without distortion */
+        border-radius: 8px; /* Optional: Add rounded corners */
+    }
+</style>
+
+{% endblock body %}

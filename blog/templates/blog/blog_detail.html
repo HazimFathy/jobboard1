@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+<!-- bradcam_area -->
+<div class="bradcam_area bradcam_bg_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="bradcam_text">
+                    <h3>{{ blog.title }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area -->
+
+<!--================Blog Area =================-->
+<section class="blog_area single-post-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 posts-list">
+                <div class="single-post">
+                    <div class="feature-img text-center">
+                        <img class="card-img rounded blog-image img-fluid" src="{{ blog.image.url }}" alt="{{ blog.title }}" style="max-width: 100%; height: 400px; object-fit: cover; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+                    </div>
+                    <div class="blog_details">
+                        <h2>{{ blog.title }}</h2>
+                        <ul class="blog-info-link mt-3 mb-4">
+                            <li><a href="#"><i class="fa fa-user"></i> {{ blog.category }}</a></li>
+                            <li><a href="#"><i class="fa fa-comments"></i> {{ comments|length }} Comments</a></li>
+                        </ul>
+                        <p class="excert">
+                            {{ blog.description }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="comments-area">
+                    <h4>{{ comments|length }} Comments</h4>
+                    {% for i in comments %}
+                    <div class="comment-list">
+                        <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="thumb">
+                                    <img src="img/comment/comment_1.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <p class="comment">
+                                        {{ i.write_a_comment }}
+                                    </p>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <h5>
+                                                <a href="#">{{ i.name }}</a>
+                                            </h5>
+                                            <p class="date">{{ i.created_at|date:'d M o' }}</p>
+                                        </div>
+                                    </div>
+                                    {% if i.image %}
+                                    <img src="{{ i.image.url }}" alt="Comment Image">
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="comment-form">
+                    <h4>Leave a Reply</h4>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        {% buttons %}
+                        <button class="boxed-btn3 w-100" type="submit">Submit</button>
+                        {% endbuttons %}
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="blog_right_sidebar">
+                    <aside class="single_sidebar_widget post_category_widget">
+                        <h4 class="widget_title">Categories</h4>
+                        <ul class="list cat-list">
+                            {% for i in category_list %}
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>{{ i.title }}</p>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </aside>
+
+                    <aside class="single_sidebar_widget popular_post_widget">
+                        <h3 class="widget_title">Recent Posts</h3>
+                        {% for i in blog_list %}
+                        <div class="media post_item">
+                            <img src="{{ i.image.url }}" alt="post">
+                            <div class="media-body">
+                                <a href="{% url 'blogs:blogdetail' i.id %}">
+                                    <h3>{{ i.title }}</h3>
+                                </a>
+                                <p>{{ i.create_at|date:'d M o' }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================ Blog Area end =================-->
+{% endblock body %}

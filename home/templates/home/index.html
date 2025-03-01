@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% block body %}
+    <!-- Slider Area -->
+    <div class="slider_area">
+        <div class="single_slider d-flex align-items-center slider_bg_1">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="slider_text">
+                            <div class="bradcam_text">  
+                                {% if total_jobs > 0 %}
+                                    <h3>+ {{ total_jobs }} Jobs Available</h3>
+                                {% else %}
+                                    <h3>No Jobs Available</h3>
+                                {% endif %}
+                            </div>
+                            <h3 class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".3s">Find your Dream Job</h3>
+                            <p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".4s">Connecting talents with the right opportunities - start your journey today</p>
+                            <div class="sldier_btn wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".5s">
+                                <a href="{% url 'jobs:job_list'  %}" class="boxed-btn3">Find a Job</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ilstration_img wow fadeInRight d-none d-lg-block text-right" data-wow-duration="1s" data-wow-delay=".2s">
+            <img src="img/banner/illustration.png" alt="">
+        </div>
+    </div>
+
+    <!-- Category Area -->
+    <!-- Category Area -->
+<div class="catagory_area">
+    <div class="container">
+        <form method="get">
+            <div class="row cat_search">
+                <!-- حقل البحث حسب العنوان -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="single_input">
+                        <input type="text" name="title" placeholder="Search by title" value="{{ request.GET.title }}">
+                    </div>
+                </div>
+        
+                <!-- حقل البحث حسب الوصف -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="single_input">
+                        <input type="text" name="description" placeholder="Search by description" value="{{ request.GET.description }}">
+                    </div>
+                </div>
+        
+                <!-- حقل البحث حسب الفئة -->
+                <div class="col-lg-3 col-md-4">
+                    <div class="single_input">
+                        <input type="text" name="country" placeholder="Search by country" value="{{ request.GET.country }}">
+                    </div>
+                </div>
+        
+                <!-- زر البحث -->
+                <div class="col-lg-3 col-md-12">
+                    <div class="job_btn">
+                        <button type="submit" class="boxed-btn3">Find Job</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <!-- Popular Categories -->
+    <div class="popular_catagory_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section_title mb-40">
+                        <h3>Popular Categories</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for category in categories %}
+                    <div class="col-lg-4 col-xl-3 col-md-6">
+                        <div class="single_catagory">
+                            <a href="{% url 'jobs:job_list' %}?category={{ category.id }}"><h4>{{ category.title }}</h4></a>
+                            <p><span>{{ category.num_jobs }}</span> Available positions</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Popular Search -->
+
+    <!-- Job Listing -->
+    <div class="job_listing_area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="section_title">
+                        <h3>Job Listing</h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="brouse_job text-right">
+                        <a href="{% url 'jobs:job_list'  %}" class="boxed-btn4">Browse More Job</a>
+                    </div>
+                </div>
+            </div>
+            <div class="job_lists">
+                <div class="row">
+                    {% for job in jobs %}
+                        <div class="col-lg-12 col-md-12">
+                            <div class="single_jobs white-bg d-flex justify-content-between">
+                                <div class="jobs_left d-flex align-items-center">
+                                    <div class="thumb me-3 d-flex align-items-center" style="width: 100px; height: 100px; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                        <img class="job-image img-fluid" src="{{ job.image.url }}" alt="{{ job.title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                    </div>
+                                    <div class="jobs_conetent">
+                                        <a href="{% url 'jobs:job_detail' job.slug %}"><h4>{{ job.title }}</h4></a>
+                                        <div class="links_locat d-flex align-items-center">
+                                            <div class="location">
+                                                <p><i class="fa fa-map-marker"></i> {{ job.city }}, {{ job.country }}</p>
+                                            </div>
+                                            <div class="location">
+                                                <p><i class="fa fa-clock-o"></i> {{ job.Job_Nature }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="jobs_right">
+                                    <div class="apply_now">
+                                        <a class="heart_mark" href="#"><i class="ti-heart"></i></a>
+                                        <a href="{% url 'jobs:job_detail' job.slug %}" class="boxed-btn3">Apply Now</a>
+                                    </div>
+                                    <div class="date">
+                                        <p>Date line: {{ job.Published_on|date:"d/m/Y" }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-lg-12 col-md-12">
+                            <p>No jobs available at the moment.</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="testimonial_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section_title text-center mb-40">
+                        <h3>Testimonial</h3>
+                    </div>
+                </div>
+                <div class="col-xl-12">
+                    <div class="testmonial_active owl-carousel">
+                        {% for testimonial in testimonials %}
+                            <div class="single_carousel">
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <div class="single_testmonial d-flex align-items-center">
+                                            <div class="thumb">
+                                                <img src="{{ testimonial.image.url }}" alt="">
+                                                <div class="quote_icon">
+                                                    <i class="Flaticon flaticon-quote"></i>
+                                                </div>
+                                            </div>
+                                            <div class="info">
+                                                <p>{{ testimonial.comment }}</p>
+                                                <span>- {{ testimonial.name }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+    
+    <!-- bradcam_area  -->
+    <div class="bradcam_area bradcam_bg_1">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <h3>{{job.title}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ bradcam_area  -->
+
+    <div class="job_details_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="job_details_header">
+                        <div class="single_jobs white-bg d-flex justify-content-between">
+                            <div class="jobs_left d-flex align-items-center">
+                                <div class="thumb me-3 d-flex align-items-center" style="width: 100px; height: 100px; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                                    <img class="job-image img-fluid" src="{{ job.image.url }}" alt="{{ job.title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                                </div>
+                                <div class="jobs_conetent">
+                                    <a href="#"><h4>{{job.title}}</h4></a>
+                                    <div class="links_locat d-flex align-items-center">
+                                        <div class="location">
+                                            <p> <i class="fa fa-map-marker"></i>{{job.city}}, {{job.country}}</p>
+                                        </div>
+                                        <div class="location">
+                                            <p> <i class="fa fa-clock-o"></i> {{job.Job_Nature}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="jobs_right">
+                                <div class="apply_now">
+                                    <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="descript_wrap white-bg">
+                        <div class="single_wrap">
+                            <h4>{{job.description}}</h4>
+                        </div>
+                    </div>
+                    <div class="apply_job_form white-bg">
+                        <h4>Apply for the job</h4>
+                    
+                        {% if user.is_authenticated %}
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% bootstrap_form form %}
+                                {% buttons %}
+                                <button class="boxed-btn3 w-100" type="submit">Apply Now</button>
+                                {% endbuttons %}
+                            </form>
+                        {% else %}
+                            <div class="alert alert-warning text-center" role="alert">
+                                <strong>You need to log in to apply for this job.</strong><br>
+                                <a href="{% url 'login' %}" class="btn btn-primary mt-2">Login</a>
+                                <a href="{% url 'accounts:signup' %}" class="btn btn-success mt-2">Sign Up</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="job_sumary">
+                        <div class="summery_header">
+                            <h3>Job Summery</h3>
+                        </div>
+                        <div class="job_content">
+                            <ul>
+                                <li>Published on: <span>{{job.Published_on|date:'d M o'}}</span></li>
+                                <li>Vacancy: <span>{{job.vacancy}} Position</span></li>
+                                <li>Salary: <span> {{job.Salary}} k/y</span></li>
+                                <li>Location: <span>{{job.city}}, {{job.country}}</span></li>
+                                <li>Job Nature: <span> {{job.Job_Nature}}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="share_wrap d-flex">
+                        <span>Share at:</span>
+                        <ul>
+                            <li>
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" target="_blank">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Check this out!" target="_blank">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mailto:?subject=Check this out&body={{ request.build_absolute_uri }}" target="_blank">
+                                    <i class="fa fa-envelope"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}" target="_blank">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

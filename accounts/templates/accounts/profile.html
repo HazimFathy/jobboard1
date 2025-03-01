@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+
+<!-- bradcam_area  -->
+<div class="bradcam_area bradcam_bg_1">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="text-white display-4">Your Profile</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ bradcam_area  -->
+
+<!-- Profile Section -->
+<div class="job_details_area">
+    <div class="container">
+        <div class="row">
+            <!-- Profile Summary -->
+            <div class="col-lg-6 mx-auto">
+                <div class="job_sumary p-4 shadow-lg rounded-lg" style="background: linear-gradient(135deg, #f9f9f9, #ffffff); border: 1px solid #e0e0e0;">
+                    <div class="summery_header text-center">
+                        <!-- Profile Image with Hover Effect -->
+                        <div class="profile-image-wrapper mb-4 mx-auto" style="width: 150px; height: 150px; overflow: hidden; border-radius: 50%; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: transform 0.3s ease;">
+                            {% if profile.image %}
+                                <img src="{{ profile.image.url }}" alt="User Profile" class="job-image" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center bg-light" style="width: 100%; height: 100%;">
+                                    <i class="fas fa-user fa-3x text-secondary"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <h3 class="mb-3" style="color: #333; font-weight: 600;">Profile Summary</h3>
+                    </div>
+                    <div class="job_content">
+                        <ul class="list-unstyled">
+                            <li class="mb-3">
+                                <span class="d-block text-muted">Name</span>
+                                <span class="d-block h5" style="color: #0d6efd;">{{ profile.user.get_full_name }}</span>
+                            </li>
+                            <li class="mb-3">
+                                <span class="d-block text-muted">Email</span>
+                                <span class="d-block h5" style="color: #0d6efd;">{{ profile.user.email }}</span>
+                            </li>
+                            <li class="mb-3">
+                                <span class="d-block text-muted">Phone</span>
+                                <span class="d-block h5" style="color: #0d6efd;">{{ profile.number }}</span>
+                            </li>
+                            <li class="mb-3">
+                                <span class="d-block text-muted">Address</span>
+                                <span class="d-block h5" style="color: #0d6efd;">{{ profile.country }},{{ profile.city }}</span>
+                            </li>
+                        </ul>
+                        <a href="{% url 'accounts:profile_edit' %}" class="boxed-btn3 w-100 mt-4" style="background: #0d6efd; color: #fff; border: none; padding: 12px; font-size: 16px; border-radius: 8px; transition: background 0.3s ease;">
+                            Edit your profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons for Adding Job/Blog -->
+        <div class="row mt-5">
+            <div class="col-lg-6 mx-auto text-center">
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <a href="{% url 'jobs:add_job' %}" class="boxed-btn3 mb-3 w-100" style="background: #28a745; color: #fff; border: none; padding: 12px; font-size: 16px; border-radius: 8px; transition: background 0.3s ease;">
+                            Add a new Job
+                        </a>
+                        <a href="{% url 'blogs:addblog' %}" class="boxed-btn3 w-100" style="background: #ffc107; color: #000; border: none; padding: 12px; font-size: 16px; border-radius: 8px; transition: background 0.3s ease;">
+                            Add a new post
+                        </a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                        <a href="{% url 'admin:index' %}" class="boxed-btn3 mt-3 w-100" style="background: #dc3545; color: #fff; border: none; padding: 12px; font-size: 16px; border-radius: 8px; transition: background 0.3s ease;">
+                            Admin Dashboard
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS for Hover Effects -->
+<style>
+    .profile-image-wrapper:hover {
+        transform: scale(1.05);
+    }
+    .boxed-btn3:hover {
+        opacity: 0.9;
+    }
+</style>
+
+{% endblock body %}
