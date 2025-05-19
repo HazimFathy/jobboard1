@@ -8,7 +8,7 @@ from django.http import HttpResponseForbidden
 
 
 User = get_user_model()
-# تسجيل مستخدم جديد
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -23,13 +23,13 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-# عرض الملف الشخصي مع الوظائف المرتبطة به
+
 def profile_view(request):
-    profile = get_object_or_404(Profile, user=request.user)  # جلب الملف الشخصي
-    jobs = profile.jobs.all()  # جلب جميع الوظائف المرتبطة بالمستخدم
+    profile = get_object_or_404(Profile, user=request.user) 
+    jobs = profile.jobs.all()
     return render(request, 'accounts/profile.html', {'profile': profile, 'jobs': jobs})
 
-# تعديل الملف الشخصي
+
 def profile_edit(request):
     profile = get_object_or_404(Profile, user=request.user)
     if request.method == 'POST':
