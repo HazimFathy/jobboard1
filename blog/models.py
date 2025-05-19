@@ -19,8 +19,7 @@ class Blog (models.Model):
     
     
     def __str__(self):
-        return self.title
-# delete the image of the blog if the blog deleted   
+        return self.title 
 @receiver(post_delete, sender=Blog)
 def delete_post_image(sender, instance, **kwargs):
     if instance.image:
